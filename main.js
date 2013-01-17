@@ -1,13 +1,24 @@
-var translators = [
-	{
-		urlRegex:  /agoda.co/,
-		decoder: function(){}
-	},
-	{
-		urlRegex:  /booking.co/,
-		decoder: function(){}
-	}
-];
+var translators = [{
+	urlRegex:  /agoda.co/,
+	decoder: function(){}
+}, {
+	urlRegex:  /booking.co/,
+	decoder: function(){}
+}, {
+	urlRegex: /.*/,
+	decorder: title_extractor
+}];
+
+
+function title_extractor(body) {
+	var head  = body.match(/<head>.*<\/head>/)[0];
+		title = $(head).find('title').text();
+	return {extractor: 'title', data: {title: title}};
+}
+
+
+
+
 
 $(function(){
 
