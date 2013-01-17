@@ -6,18 +6,14 @@ var translators = [{
 	decoder: function(){}
 }, {
 	urlRegex: /.*/,
-	decorder: title_extractor
+	decoder: title_extractor
 }];
 
 
 function title_extractor(body) {
-	var head  = body.match(/<head>.*<\/head>/)[0];
-		title = $(head).find('title').text();
-	return {extractor: 'title', data: {title: title}};
+	var title  = body.match(/<title>([\s\S]*)<\/title>/);
+	return {extractor: 'title', data: {title: title[1] ? title[1] : null}};
 }
-
-
-
 
 
 $(function(){
@@ -28,7 +24,8 @@ $(function(){
 
 	function process_results (response){
 		handlers = find_handlers(response.url);
-		// results = translate(response.body);
+		results = extract(handlers, response.body);
+		$('#results').text(JSON.stringify(results));
 	}
 
 	function find_handlers(url) {
@@ -37,6 +34,14 @@ $(function(){
 			if( el.urlRegex.test(url) ) { handlers.push(el); }
 		});
 		return handlers;
+	}
+
+	function extract(handlers, body) {
+		var extracted = [];
+		$.each(handlers, function(idx, handler){
+			extracted.push(handler.decoder(body));
+		});
+		return extracted;
 	}
 
 });
