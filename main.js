@@ -1,3 +1,13 @@
+var translators = [
+	{
+		urlRegex:  /agoda.co/,
+		decoder: function(){}
+	},
+	{
+		urlRegex:  /booking.co/,
+		decoder: function(){}
+	}
+];
 
 $(function(){
 
@@ -6,18 +16,25 @@ $(function(){
 	});
 
 	function process_results (response){
-		var title_with_tag = $(response).find('title');
-		var title = title_with_tag.text();
-		$('#results').append(title);
+		handlers = find_handlers(response.url);
+		// results = translate(response.body);
+	}
+
+	function find_handlers(url) {
+		var handlers = [];
+		$.each(translators, function(idx, el){
+			if( el.urlRegex.test(url) ) { handlers.push(el); }
+		});
+		return handlers;
 	}
 
 });
-
 
 (function($){
 
 	$.ajax_form = {
 		defaults: {
+
 			success: function(){},
 			error: function(error){ alert(error); }
 		}
