@@ -3,7 +3,7 @@ var translators = [{
 	decoder: handler(title_element)
 }, {
 	urlRegex: /^.+agoda.co.+$/,
-	decoder: handler(agoda_hotel)
+	decoder: handler(agoda_hotel_name)
 }];
 
 function handler(fn) {
@@ -14,25 +14,24 @@ function handler(fn) {
 }
 
 function title_element(body) {
-	var title  = body.match(/<title>([\s\S]*)<\/title>/);
-	return {data: {title: title[1] ? title[1] : null}};
+	var title  = body.match(/<title>([\s\S]*)<\/title>/i);
+	return {data: {title: title[1] ? title[1].trim() : null}};
 }
 
-function agoda_hotel(body) {
-	// var hotel_name = response;
-	// website = ($('#input_url').val()).split('.')[1];
-	// regex = "";
-	// if (website == 'agoda') {
-	//    	regex = /<h1 *itemprop="name">([\s\S]*)<\/h1>/i;
-	// }else if (website == 'booking') {
-	// 	regex = /<h1 *class="item">([\s\S]*)<\/h1>/;
-	// }else if (website == 'tripadvisor'){
-	// 	regex = /<h1 *id="HEADING" *property="v:name">([\s\S]*)<\/h1>/;
-	// }else {
-	// 	regex = /<title>([\s\S]*)<\/title>/i;
-	// }
-	return {data: null};
+function agoda_hotel_name(body) {
+	var itemprop =  body.match(/<h1 *itemprop="name">[\s\S]*<\/h1>/i);
+	if( itemprop === null ) { return {data:{}}; }
+	return {data: {hotel_name: $(itemprop[0]).text().trim()} };
 }
+
+
+// }else if (website == 'booking') {
+// 	regex = /<h1 *class="item">([\s\S]*)<\/h1>/;
+// }else if (website == 'tripadvisor'){
+// 	regex = /<h1 *id="HEADING" *property="v:name">([\s\S]*)<\/h1>/;
+// }else {
+// 	regex = /<title>([\s\S]*)<\/title>/i;
+// }
 
 // -------------------------------------------------------------------
 
