@@ -7,6 +7,9 @@ var translators = [{
 }, {
 	urlRegex: /^.+booking.com.+$/,
 	decoder: handler(booking_hotel_name)
+}, {
+	urlRegex: /^.+tripadvisor.co.+\/Hotel_Review.+$/,
+	decoder: handler(tripadvisor_hotel_name)
 }];
 
 function handler(fn) {
@@ -28,18 +31,16 @@ function agoda_hotel_name(body) {
 }
 
 function booking_hotel_name(body) {
-	var item = body.match(/<h1 *class="item">[\s\S]*<\/h1>/);
+	var item = body.match(/<h1 *class="item">[\s\S]*<\/h1>/i);
 	if( item === null ){return {data:{}}; }
 	return {data: {hotel_name: $(item[0]).text().trim()} };
 }
 
-// }else if (website == 'booking') {
-// 	regex = /<h1 *class="item">([\s\S]*)<\/h1>/;
-// }else if (website == 'tripadvisor'){
-// 	regex = /<h1 *id="HEADING" *property="v:name">([\s\S]*)<\/h1>/;
-// }else {
-// 	regex = /<title>([\s\S]*)<\/title>/i;
-// }
+function tripadvisor_hotel_name(body) {
+	var item_tripad = body.match(/<h1 *id="HEADING" *property="v:name">[\s\S]*<\/h1>/i);
+	if ( item_tripad === null ) { return {data:{}}; }
+	return {data: {hotel_name: $(item_tripad[0]).text().trim()} };
+}
 
 // -------------------------------------------------------------------
 
