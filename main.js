@@ -74,9 +74,15 @@ $(function(){
 	}
 
 	function refine(details) {
-		return details;
-		// details is an array of objects
-		// we need to return a single object
+		result = {};
+		console.log("result", details);
+		$.each(details, function(index, detail){
+			$.each(detail.data, function(prop, val){
+				result[prop] = val;
+			});
+		});
+		console.log(result);
+		return result;
 	}
 });
 
