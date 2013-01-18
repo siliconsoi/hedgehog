@@ -50,6 +50,13 @@ $(function(){
 		success: process_results
 	});
 
+	$('#results').on('click', '.remove-result-btn', remove_result);
+
+	function remove_result(evt){
+		evt.preventDefault();
+		$(evt.currentTarget).closest('.result').remove();
+	}
+
 	function process_results (response){
 		handlers = find_handlers(response.url);
 		details = extract(handlers, response.body);
@@ -86,6 +93,7 @@ $(function(){
 			content = Mustache.to_html(tmpl, result);
 		$('#results').append(content);
 	}
+
 });
 
 (function($){
@@ -132,15 +140,4 @@ $(function(){
 });
 
 
-$(function(){
-	$('.remove_btn').on('click', remove_element);
-
-	function remove_element(evt){
-		var $hotel_name = $(evt.currentTarget);
-		evt.preventDefault();
-
-		$detail.closest('.hotel_name').remove();
-	}
-
-});
 
