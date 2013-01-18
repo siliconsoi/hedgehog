@@ -1,20 +1,28 @@
 var translators = [{
-	urlRegex:  /agoda.co/,
-	decoder: function(){}
-}, {
-	urlRegex:  /booking.co/,
-	decoder: function(){}
-}, {
 	urlRegex: /.*/,
-	decoder: title_extractor
+	decoder: handler(title_element)
+}, {
+	urlRegex: /^.+agoda.co.+$/,
+	decoder: handler(agoda_hotel)
 }];
 
-
-function title_extractor(body) {
-	var title  = body.match(/<title>([\s\S]*)<\/title>/);
-	return {extractor: 'title', data: {title: title[1] ? title[1] : null}};
+function handler(fn) {
+	return function(body) {
+		console.log('applying ' + fn.name);
+		return $.extend({}, fn(body), {extractor: fn.name});
+	};
 }
 
+function title_element(body) {
+	var title  = body.match(/<title>([\s\S]*)<\/title>/);
+	return {data: {title: title[1] ? title[1] : null}};
+}
+
+function agoda_hotel(body) {
+	return {data: null};
+}
+
+// -------------------------------------------------------------------
 
 $(function(){
 
