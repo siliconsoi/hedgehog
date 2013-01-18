@@ -132,3 +132,15 @@ $(function(){
 });
 
 
+$(function(){
+	$('.remove_btn').on('click', remove_element);
+
+	function remove_element(evt){
+		var $hotel_name = $(evt.currentTarget);
+		evt.preventDefault();
+
+		$detail.closest('.hotel_name').remove();
+	}
+
+});
+
