@@ -5,10 +5,29 @@ $(function(){
 		success: process_results
 	});
 
-	function process_results (response){
-		var title_with_tag = $(response).find('title');
-		var title = title_with_tag.text();
-		$('#results').append(title);
+	function process_results(response){
+		var hotel_name = response;
+		website = ($('#input_url').val()).split('.')[1];
+		regex = "";
+		if (website == 'agoda') {
+		   	regex = /<h1 *itemprop="name">([\s\S]*)<\/h1>/i;
+		}else if (website == 'booking') {
+			regex = /<h1 *class="item">([\s\S]*)<\/h1>/;
+		}else if (website == 'tripadvisor'){
+			regex = /<h1 *id="HEADING" *property="v:name">([\s\S]*)<\/h1>/;
+		}else {
+			regex = /<title>([\s\S]*)<\/title>/i;
+		}
+
+		// $('#results').append($(hotel_name.match(regex)[0]).text());
+		$('#results').text($(hotel_name.match(regex)[0]).text());
+
+		// if u wanna to get a title
+		// ++++++
+		// regex = /<title>([\s\S]*)<\/title>/i;
+		// console.log($(input.match(regex)[0]).text());
+		// ++++++
+
 	}
 
 });
@@ -46,5 +65,14 @@ $(function(){
 	}
 
 }(jQuery));
+
+
+$(function(){
+	$('#loading_data').hide().ajaxStart(function(){
+				$(this).show();
+	}).ajaxStop(function(){
+				$(this).hide();
+	});
+});
 
 
