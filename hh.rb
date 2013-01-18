@@ -21,7 +21,12 @@ def fetch_data(url)
 end
 
 def get_new_data(url)
-  response = HTTParty.get(url, :headers => {'User-Agent' => request.env['HTTP_USER_AGENT']})
+  response = HTTParty.get(url, :headers => {
+    'Accept-Charset' => request.env['HTTP_ACCEPT_CHARSET'],
+    'Accept-Encoding' => request.env['HTTP_ACCEPT_ENCODING'],
+    'Accept-Language' => request.env['HTTP_ACCEPT_LANGUAGE'],
+    'User-Agent' => request.env['HTTP_USER_AGENT']
+  })
   REDIS.set(url,response.body)
   REDIS.expire(url, EXPIRES)
   response
