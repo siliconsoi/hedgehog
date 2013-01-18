@@ -85,6 +85,12 @@ $(function(){
 		var tmpl = $('#tmpl-result').html(),
 			content = Mustache.to_html(tmpl, result);
 		$('#results').append(content);
+
+		$(function(){
+			$(".remove").on('click', function(evt){
+				alert("Thana");
+			});
+		});
 	}
 });
 
@@ -132,15 +138,5 @@ $(function(){
 });
 
 
-$(function(){
-	$('.remove_btn').on('click', remove_element);
 
-	function remove_element(evt){
-		var $hotel_name = $(evt.currentTarget);
-		evt.preventDefault();
-
-		$detail.closest('.hotel_name').remove();
-	}
-
-});
 
