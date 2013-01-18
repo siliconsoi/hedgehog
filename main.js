@@ -4,6 +4,9 @@ var translators = [{
 }, {
 	urlRegex: /^.+agoda.co.+$/,
 	decoder: handler(agoda_hotel_name)
+}, {
+	urlRegex: /^.+booking.com.+$/,
+	decoder: handler(booking_hotel_name)
 }];
 
 function handler(fn) {
@@ -24,6 +27,11 @@ function agoda_hotel_name(body) {
 	return {data: {hotel_name: $(itemprop[0]).text().trim()} };
 }
 
+function booking_hotel_name(body) {
+	var item = body.match(/<h1 *class="item">[\s\S]*<\/h1>/);
+	if( item === null ){return {data:{}}; }
+	return {data: {hotel_name: $(item[0]).text().trim()} };
+}
 
 // }else if (website == 'booking') {
 // 	regex = /<h1 *class="item">([\s\S]*)<\/h1>/;
@@ -43,8 +51,9 @@ $(function(){
 
 	function process_results (response){
 		handlers = find_handlers(response.url);
-		results = extract(handlers, response.body);
-		$('#results').text(JSON.stringify(results));
+		details = extract(handlers, response.body);
+		result = refine(details);
+		$('#results').text(JSON.stringify(result));
 	}
 
 	function find_handlers(url) {
@@ -63,6 +72,11 @@ $(function(){
 		return extracted;
 	}
 
+	function refine(details) {
+		return details;
+		// details is an array of objects
+		// we need to return a single object
+	}
 });
 
 (function($){
