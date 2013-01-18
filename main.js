@@ -54,7 +54,7 @@ $(function(){
 		handlers = find_handlers(response.url);
 		details = extract(handlers, response.body);
 		result = refine(details);
-		$('#results').text(JSON.stringify(result));
+		append_result($.extend({}, result, {url: response.url}));
 	}
 
 	function find_handlers(url) {
@@ -75,14 +75,16 @@ $(function(){
 
 	function refine(details) {
 		result = {};
-		console.log("result", details);
 		$.each(details, function(index, detail){
-			$.each(detail.data, function(prop, val){
-				result[prop] = val;
-			});
+			result = $.extend(result, detail.data);
 		});
-		console.log(result);
 		return result;
+	}
+
+	function append_result(result) {
+		var tmpl = $('#tmpl-result').html(),
+			content = Mustache.to_html(tmpl, result);
+		$('#results').append(content);
 	}
 });
 

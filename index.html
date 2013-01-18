@@ -11,5 +11,17 @@
     <p id ="results"> <p>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="/main.js"></script>
+    <script src="/mustache.js"></script>
+
+    <script id="tmpl-result" type="text/html">
+      <div class="result">
+        <p class="title">{{title}}</p>
+        <p class="hotel_name">{{hotel_name}}
+        <a href="{{url}}" target="_blank">web page</a>
+        <a href='#' class='remove'>remove</a>
+        </p>
+      </div>
+    </script>
+
   </body>
 </html>
