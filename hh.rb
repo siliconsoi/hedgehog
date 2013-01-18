@@ -1,15 +1,28 @@
 require 'sinatra'
 require "HTTParty"
-require 'pp'
+require 'json'
+require "redis"
 
 set :public_folder, '.'
 
-# get '/' do
-#   request.env['HTTP_USER_AGENT']
-# end
+REDIS = Redis.new
+EXPIRES = 60 * 60 * 24 * 3 # 3 days
 
 get '/proxy' do
-  proxy_response = HTTParty.get(params[:url].split('?')[0],
-            :headers => {'User-Agent' => request.env['HTTP_USER_AGENT']})
-  proxy_response.body
+  content_type :json
+  url = params[:url].split('?')[0]
+  { :url => url, :body => fetch_data(url)}.to_json
+end
+
+def fetch_data(url)
+  body = REDIS.get(url)
+  body = get_new_data(url) if body.nil?
+  body
+end
+
+def get_new_data(url)
+  response = HTTParty.get(url, :headers => {'User-Agent' => request.env['HTTP_USER_AGENT']})
+  REDIS.set(url,response.body)
+  REDIS.expire(url, EXPIRES)
+  response
 end
