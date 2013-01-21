@@ -25,6 +25,16 @@
 	}
 
 	$('#results').on('click', '.remove-result-btn', remove_result);
+	$('#results').on('click', '.sign_btn', add_sign_btn);
+
+	function add_sign_btn(evt){
+		evt.preventDefault();
+		if ($(evt.currentTarget).attr('src') == 'image/Yellow-icon.png'){
+			$(evt.currentTarget).attr('src','image/Gray-icon.png');
+		}else{
+			$(evt.currentTarget).attr('src','image/Yellow-icon.png');
+		}
+	}
 
 	function remove_result(evt){
 		evt.preventDefault();
@@ -65,7 +75,8 @@
 	function append_result(result) {
 		var tmpl = $('#tmpl-result').html(),
 			content = Mustache.to_html(tmpl, result);
-		$('#results').append(content);
+		$('#results').prepend(content);
+
 	}
 
 
