@@ -11,6 +11,9 @@ EXPIRES = 60 * 60 * 24 * 3 # 3 days
 URL_CONFIG = [
   { :urlRegex => /^.+wotif.com\/hotel.+$/,
     :rules => [:retain_query]
+  },
+  { :urlRegex => /^.+hotels.co.+\/hotel.+$/,
+    :rules => [:retain_query]
   }
 ]
 

@@ -1,6 +1,7 @@
 <html>
   <head>
-    <title>fdfsfdfd</title>
+    <title>HedgeHog</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
   </head>
   <body>
     <form action="/proxy" method="get">
@@ -12,18 +13,19 @@
 
     <script id="tmpl-result" type="text/html">
       <div class="result">
-        <p class="title">{{title}}</p>
-        <p class="hotel_name">
-        {{hotel_name}}
+
+        {{^hotel_name}}<p class="title">{{title}}</p>{{/hotel_name}}
+        {{#hotel_name}}<p class="hotel_name">{{hotel_name}}</p>{{/hotel_name}}
+        <button class="add-note-btn">Note</button>
         <a title="website" href="{{url}}" target="_blank"><img src="image/www-icon.png" /></a>
-        <a title="review" href='#'><img class='sign_btn' src='image/Gray-icon.png'  alt="Smiley face"></a>
-        <a title="price" href='#'><img class='sign_btn' src='image/Gray-icon.png'  alt="Smiley face" ></a>
-        <a title="picture" href='#'><img class='sign_btn' src='image/Gray-icon.png' /></a>
-        <a title="detail" href='#'><img class='sign_btn' src='image/Gray-icon.png' /></a>
-        <a title="facility" href='#'><img class='sign_btn' src='image/Gray-icon.png' /></a>
-        <a title="location" href='#'><img class='sign_btn' src='image/Gray-icon.png' /></a>
+        <a title="review" href='#'><img class='content-btn' /></a>
+        <a title="price" href='#'><img class='content-btn'  /></a>
+        <a title="picture" href='#'><img class='content-btn' /></a>
+        <a title="detail" href='#'><img class='content-btn'/></a>
+        <a title="facility" href='#'><img class='content-btn' /></a>
+        <a title="location" href='#'><img class='content-btn' /></a>
         <a title="remove" href='#' class="remove-result-btn"><img src='image/Delete-icon.png' /></a>
-        </p>{{hotel_name}}
+        <div class="note" hidden><textarea></textarea></div>
       </div>
     </script>
 
@@ -32,6 +34,7 @@
     <script src="/mustache.js"></script>
     <script src="/document_handlers.js"></script>
     <script src="/main.js"></script>
+
 
   </body>
 </html>

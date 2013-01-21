@@ -10,16 +10,26 @@
 		success: process_results
 	});
 
+	$('#results').on('click', '.add-note-btn', add_note);
+
+	function add_note(evt){
+		evt.preventDefault();
+		$note = $(evt.currentTarget).closest('.result').find('.note');
+		console.log($note.is(':visible'));
+		if ($note.is(':visible')){
+			$note.hide();
+		}
+		else{
+			$note.show();
+		}
+	}
+
 	$('#results').on('click', '.remove-result-btn', remove_result);
-	$('#results').on('click', '.sign_btn', add_sign_btn);
+	$('#results').on('click', '.content-btn', add_sign_btn);
 
 	function add_sign_btn(evt){
 		evt.preventDefault();
-		if ($(evt.currentTarget).attr('src') == 'image/Yellow-icon.png'){
-			$(evt.currentTarget).attr('src','image/Gray-icon.png');
-		}else{
-			$(evt.currentTarget).attr('src','image/Yellow-icon.png');
-		}
+		$(evt.currentTarget).toggleClass('selected');
 	}
 
 	function remove_result(evt){
@@ -64,6 +74,8 @@
 		$('#results').prepend(content);
 
 	}
+
+
 
 }(jQuery));
 
