@@ -79,10 +79,22 @@
 
 	}
 
+	$('.move_up').on('click', move_up);
+	$('.move_down').on('click', move_down);
 
+	function move_down(evt){
+		evt.preventDefault();
+		console.log('55555555');
+		$result = $(evt.currentTarget).closest('.result');
+		$result.after($myElement.prev());
+	}
+
+	function move_up(evt){
+		evt.preventDefault();
+		console.log('566666666666');
+		$result = $(evt.currentTarget).closest('.result');
+		$result.before($myElement.next());
+	}
 
 }(jQuery));
-
-
-
 
