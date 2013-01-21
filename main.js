@@ -61,18 +61,11 @@
 	function append_result(result) {
 		var tmpl = $('#tmpl-result').html(),
 			content = Mustache.to_html(tmpl, result);
-		$('#results').append(content);
+		$('#results').prepend(content);
 
 	}
 
 }(jQuery));
-
-// $(function(){
-// 	$('.tick-review-btn').on('click', function(evt){
-// 		evt.preventDefault();
-// 		alert('Reviews');
-// 	});
-// });
 
 
 
