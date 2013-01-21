@@ -4,7 +4,7 @@
 		defaults: {
 
 			success: function(){},
-			error: function(error){ alert(error); }
+			error: function(error){ alert("Sorry, we cannot found this site"); }
 		}
 	};
 

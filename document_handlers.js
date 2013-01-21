@@ -4,7 +4,7 @@ var translators = (function(){
 		urlRegex: /.*/,
 		decoder: handler(title_element)
 	}, {
-		urlRegex: /^.+agoda.co.+$/,
+		urlRegex: /^.+agoda.*.+$/,
 		decoder: handler(agoda_hotel_name)
 	}, {
 		urlRegex: /^.+booking.com.+$/,
