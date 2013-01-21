@@ -52,6 +52,12 @@
 		var tmpl = $('#tmpl-result').html(),
 			content = Mustache.to_html(tmpl, result);
 		$('#results').append(content);
+
+		$(function(){
+			$(".remove").on('click', function(evt){
+				alert("Thana");
+			});
+		});
 	}
 
 }(jQuery));

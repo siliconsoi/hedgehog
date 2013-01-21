@@ -8,9 +8,15 @@ set :public_folder, '.'
 REDIS = Redis.new
 EXPIRES = 60 * 60 * 24 * 3 # 3 days
 
+URL_CONFIG = [
+  { :urlRegex => /^.+wotif.com\/hotel.+$/,
+    :rules => [:retain_query]
+  }
+]
+
 get '/proxy' do
   content_type :json
-  url = params[:url].split('?')[0]
+  url = preprocess(params[:url])
   { :url => url, :body => fetch_data(url)}.to_json
 end
 
@@ -31,3 +37,20 @@ def get_new_data(url)
   REDIS.expire(url, EXPIRES)
   response
 end
+
+def preprocess(url)
+  config = url_config(url)
+  url = params[:url].split('?')[0] unless config.has_key?(:retain_query)
+  url
+end
+
+def url_config(url)
+  result = {}
+  URL_CONFIG.each do |cfg|
+    if cfg[:urlRegex].match(url)
+      cfg[:rules].each { |rule| result[rule] = true }
+    end
+  end
+  result
+end
+

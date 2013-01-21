@@ -18,6 +18,12 @@ var translators = (function(){
 	}, {
 		urlRegex: /^.+hotels.co.+\/hotel.+$/,
 		decoder: handler(hotels_name)
+	}, {
+		urlRegex: /^.+splendia.com\/.+$/,
+		decoder: handler(splendia_hotel_name)
+	}, {
+		urlRegex: /^.+wotif.com+\/hotel.+$/,
+		decoder: handler(wotif_hotel_name)
 	}];
 
 	function handler(fn) {
@@ -61,6 +67,19 @@ var translators = (function(){
 		console.log(body);
 		if ( item_tripad === null ) { return {data:{}}; }
 		return {data: {hotel_name: $(item_tripad[0]).text().trim()} };
+	}
+
+	function splendia_hotel_name(body) {
+		var item_splendia = body.match(/<span *itemprop="name">[\s\S].*<\/span>/i);
+		if (item_splendia === null ){return {data:{}}; }
+		return {data: {hotel_name: $(item_splendia[0]).text().trim()} };
+	}
+
+	function wotif_hotel_name(body) {
+		var item_wotif = body.match(/<h1 *class="section">[\s\S].*<\/h1>/i);
+		if (item_wotif === null ){return {data:{}}; }
+		return {data: {hotel_name: $(item_wotif[0]).text().trim()} };
+
 	}
 
 	return translators;
