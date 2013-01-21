@@ -23,6 +23,7 @@ get '/proxy' do
   { :url => url, :body => fetch_data(url)}.to_json
 end
 
+
 def fetch_data(url)
   body = REDIS.get(url)
   body = get_new_data(url) if body.nil?
