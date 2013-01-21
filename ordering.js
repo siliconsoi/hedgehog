@@ -5,13 +5,13 @@
 
 	function move_up(evt){
 		evt.preventDefault();
-		$result = $(evt.currentTarget).closest('.result');
+		var $result = $(evt.currentTarget).closest('.result');
 		$result.after($result.prev());
 	}
 
 	function move_down(evt){
 		evt.preventDefault();
-		$result = $(evt.currentTarget).closest('.result');
+		var $result = $(evt.currentTarget).closest('.result');
 		$result.before($result.next());
 	}
 

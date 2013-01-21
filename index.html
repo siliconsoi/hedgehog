@@ -9,20 +9,20 @@
       <input type="submit" id="input_button" value="+">
     </form>
     <img id="loading_data" src="/ajax-loader.gif" />
-    <p id ="results"> <p>
+    <div id ="results"> <div>
 
     <script id="tmpl-result" type="text/html">
       <div class="result">
-        {{^hotel_name}}<span class="title">{{title}}</span>{{/hotel_name}}
+        {{^hotel_name}}<span class="title" name="title">{{title}}</span>{{/hotel_name}}
         {{#hotel_name}}<span class="hotel_name">{{hotel_name}}</span>{{/hotel_name}}
         <button class="add-note-btn">Note</button>
         <a title="website" href="{{url}}" target="_blank"><img src="image/www-icon.png" /></a>
-        <a title="review" href='#'><img class='content-btn' /></a>
-        <a title="price" href='#'><img class='content-btn'  /></a>
-        <a title="picture" href='#'><img class='content-btn' /></a>
-        <a title="detail" href='#'><img class='content-btn'/></a>
-        <a title="facility" href='#'><img class='content-btn' /></a>
-        <a title="location" href='#'><img class='content-btn' /></a>
+        <a title="review" href='#'><img class='content-btn' data-content-type="review"/></a>
+        <a title="price" href='#'><img class='content-btn'  data-content-type="price"/></a>
+        <a title="picture" href='#'><img class='content-btn' data-content-type="picture"/></a>
+        <a title="detail" href='#'><img class='content-btn' data-content-type="detail"/></a>
+        <a title="facility" href='#'><img class='content-btn' data-content-type="facility"/></a>
+        <a title="location" href='#'><img class='content-btn' data-content-type="location"/></a>
         <a title="remove" href='#' class="remove-result-btn"><img src='image/Delete-icon.png' /></a>
         <a href="#" class="move_up">UP</a>
         <a href="#" class="move_down">DOWN</a>
