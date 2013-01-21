@@ -12,6 +12,12 @@ var translators = (function(){
 	}, {
 		urlRegex: /^.+tripadvisor.co.+\/Hotel_Review.+$/,
 		decoder: handler(tripadvisor_hotel_name)
+	}, {
+		urlRegex: /^.+expedia.co.+\/Hotel-Search.+$/,
+		decoder: handler(expedia_hotel_name)
+	}, {
+		urlRegex: /^.+hotels.co.+\/hotel.+$/,
+		decoder: handler(hotels_name)
 	}];
 
 	function handler(fn) {
@@ -44,7 +50,19 @@ var translators = (function(){
 		return {data: {hotel_name: $(item_tripad[0]).text().trim()} };
 	}
 
+	function expedia_hotel_name(body) {
+		var item_tripad = body.match(/<h1 *id="address-hotel-name">[\s\S]*<\/h1>/i);
+		if ( item_tripad === null ) { return {data:{}}; }
+		return {data: {hotel_name: $(item_tripad[0]).text().trim()} };
+	}
+
+	function hotels_name(body) {
+		var item_tripad = body.match(/<h1 *class="fn org">[\s\S].*<\/h1>/i);
+		console.log(body);
+		if ( item_tripad === null ) { return {data:{}}; }
+		return {data: {hotel_name: $(item_tripad[0]).text().trim()} };
+	}
+
 	return translators;
 
 }(jQuery));
-
