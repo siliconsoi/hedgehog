@@ -10,6 +10,20 @@
 		success: process_results
 	});
 
+	$('#results').on('click', '.add-note-btn', add_note);
+
+	function add_note(evt){
+		evt.preventDefault();
+		$note = $(evt.currentTarget).closest('.result').find('.note');
+		console.log($note.is(':visible'));
+		if ($note.is(':visible')){
+			$note.hide();
+		}
+		else{
+			$note.show();
+		}
+	}
+
 	$('#results').on('click', '.remove-result-btn', remove_result);
 
 	function remove_result(evt){
@@ -52,13 +66,9 @@
 		var tmpl = $('#tmpl-result').html(),
 			content = Mustache.to_html(tmpl, result);
 		$('#results').append(content);
-
-		$(function(){
-			$(".remove").on('click', function(evt){
-				alert("Thana");
-			});
-		});
 	}
+
+
 
 }(jQuery));
 

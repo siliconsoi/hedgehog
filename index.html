@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>fdfsfdfd</title>
+    <title>HedgeHog</title>
   </head>
   <body>
     <form action="/proxy" method="get">
@@ -12,10 +12,12 @@
 
     <script id="tmpl-result" type="text/html">
       <div class="result">
-        <p class="title">{{title}}</p>
-        <p class="hotel_name">{{hotel_name}}
+        {{^hotel_name}}<p class="title">{{title}}</p>{{/hotel_name}}
+        {{#hotel_name}}<p class="hotel_name">{{hotel_name}}</p>{{/hotel_name}}
+        <button class="add-note-btn">Note</button>
         <a href="{{url}}" target="_blank">web page</a>
         <a href='#' class='remove-result-btn'>remove</a>
+        <div class="note" hidden><textarea></textarea></div>
         </p>
       </div>
     </script>
