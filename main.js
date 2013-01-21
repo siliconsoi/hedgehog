@@ -25,15 +25,11 @@
 	}
 
 	$('#results').on('click', '.remove-result-btn', remove_result);
-	$('#results').on('click', '.sign_btn', add_sign_btn);
+	$('#results').on('click', '.content-btn', add_sign_btn);
 
 	function add_sign_btn(evt){
 		evt.preventDefault();
-		if ($(evt.currentTarget).attr('src') == 'image/Yellow-icon.png'){
-			$(evt.currentTarget).attr('src','image/Gray-icon.png');
-		}else{
-			$(evt.currentTarget).attr('src','image/Yellow-icon.png');
-		}
+		$(evt.currentTarget).toggleClass('selected');
 	}
 
 	function remove_result(evt){

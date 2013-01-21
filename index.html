@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>HedgeHog</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
   </head>
   <body>
     <form action="/proxy" method="get">
@@ -12,16 +13,16 @@
 
     <script id="tmpl-result" type="text/html">
       <div class="result">
-        {{^hotel_name}}<p class="title">{{title}}</p>{{/hotel_name}}
-        {{#hotel_name}}<p class="hotel_name">{{hotel_name}}>/p>{{/hotel_name}}
+        {{^hotel_name}}<span class="title">{{title}}</span>{{/hotel_name}}
+        {{#hotel_name}}<span class="hotel_name">{{hotel_name}}</span>{{/hotel_name}}
         <button class="add-note-btn">Note</button>
         <a title="website" href="{{url}}" target="_blank"><img src="image/www-icon.png" /></a>
-        <a title="review" href='#'><img class='sign_btn' src='image/Gray-icon.png'  alt="Smiley face"></a>
-        <a title="price" href='#'><img class='sign_btn' src='image/Gray-icon.png'  alt="Smiley face" ></a>
-        <a title="picture" href='#'><img class='sign_btn' src='image/Gray-icon.png' /></a>
-        <a title="detail" href='#'><img class='sign_btn' src='image/Gray-icon.png' /></a>
-        <a title="facility" href='#'><img class='sign_btn' src='image/Gray-icon.png' /></a>
-        <a title="location" href='#'><img class='sign_btn' src='image/Gray-icon.png' /></a>
+        <a title="review" href='#'><img class='content-btn' /></a>
+        <a title="price" href='#'><img class='content-btn'  /></a>
+        <a title="picture" href='#'><img class='content-btn' /></a>
+        <a title="detail" href='#'><img class='content-btn'/></a>
+        <a title="facility" href='#'><img class='content-btn' /></a>
+        <a title="location" href='#'><img class='content-btn' /></a>
         <a title="remove" href='#' class="remove-result-btn"><img src='image/Delete-icon.png' /></a>
         <a href="#" class="move_up">UP</a>
         <a href="#" class="move_down">DOWN</a>
