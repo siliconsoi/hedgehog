@@ -8,7 +8,7 @@
 		evt.preventDefault();
 		var $results = $(evt.currentTarget).closest('#results'),
 			collector = [];
-		$.each($results.find('.result'), function(idx, el, collector) {
+		$.each($results.find('.result'), function(idx, el) {
 			// console.log( $(el).find('.note').length, idx );
 			var $el = $(el),
 				hash = {
@@ -16,10 +16,7 @@
 					note: $el.find('.note').val(),
 					types: generate_types($el)
 				};
-			// hash.push(collector);
-			console.log(hash);
 		});
-		// console.log($results.find('.result'), $results.find('.result').length);
 	}
 
 	$('#input_button').on('click', show_make_btn);

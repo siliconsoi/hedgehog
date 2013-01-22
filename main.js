@@ -9,13 +9,11 @@
 	$('form').ajax_form({
 		success: process_results
 	});
-
 	$('#results').on('click', '.add-note-btn', add_note);
 
 	function add_note(evt){
 		evt.preventDefault();
 		$note = $(evt.currentTarget).closest('.result').find('.note');
-		console.log($note.is(':visible'));
 		if ($note.is(':visible')){
 			$note.hide();
 		}
@@ -27,6 +25,7 @@
 	$('#results').on('click', '.remove-result-btn', remove_result);
 	$('#results').on('click', '.content-btn', add_sign_btn);
 
+
 	function add_sign_btn(evt){
 		evt.preventDefault();
 		$(evt.currentTarget).toggleClass('selected');
@@ -36,7 +35,7 @@
 		evt.preventDefault();
 		$(evt.currentTarget).closest('.result').remove();
 		if ($('.result').length < 1){
-			$('.make-json').hide();
+			$('#to_json').hide();
 		}
 	}
 
