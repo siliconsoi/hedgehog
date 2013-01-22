@@ -24,7 +24,6 @@ get '/proxy' do
 end
 
 get '/continue' do
-  # link = params[:link]
 
 end
 

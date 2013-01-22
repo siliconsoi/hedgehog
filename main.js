@@ -35,6 +35,9 @@
 	function remove_result(evt){
 		evt.preventDefault();
 		$(evt.currentTarget).closest('.result').remove();
+		if ($('.result').length < 1){
+			$('.make-json').hide();
+		}
 	}
 
 	function process_results (response){

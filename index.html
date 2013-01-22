@@ -9,8 +9,10 @@
       <input type="submit" id="input_button" value="+">
     </form>
     <img id="loading_data" src="/ajax-loader.gif" />
-    <div id ="results"> <div>
-
+    <form action="/continue" method="get">
+      <div id ="results"> <div>
+      <input class="make-json" type='submit' value='make'>
+    </form>
 
     <script id="tmpl-result" type="text/html">
       <div class="result">
@@ -36,6 +38,7 @@
     <script src="/mustache.js"></script>
     <script src="/document_handlers.js"></script>
     <script src="/ordering.js"></script>
+    <script src="/collect.js"></script>
     <script src="/main.js"></script>
 
   </body>
