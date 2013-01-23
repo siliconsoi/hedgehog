@@ -19,6 +19,8 @@ URL_CONFIG = [
 ]
 
 get '/' do
+  @resource = "/project"
+  @resource_method = "post"
   erb :index, {:locals => {:project => []}}
 end
 
@@ -86,7 +88,7 @@ end
 
 class Project
 
-  attr_reader :url
+  attr_reader :url#, :resource, :resource_method
 
   def initialize(data, redis)
     @project = data[:project].nil? ? nil : data[:project].values
@@ -114,4 +116,5 @@ class Project
   def url
     "/project/#{@id}" unless @id.nil?
   end
+
 end
