@@ -2,6 +2,7 @@ require 'sinatra'
 require "HTTParty"
 require 'json'
 require "redis"
+# require "project"
 
 set :public_folder, '.'
 
@@ -23,8 +24,18 @@ get '/proxy' do
   { :url => url, :body => fetch_data(url)}.to_json
 end
 
-get '/continue' do
+get '/share' do
   # link = params[:link]
+end
+
+post '/projects' do
+  project =  Project.new(params[:project], REDIS)
+  project.save
+  content_type :json
+  { :url => project.url}.to_json
+end
+
+put '/project/:id' do
 
 end
 
@@ -62,3 +73,27 @@ def url_config(url)
   result
 end
 
+#########################################################################
+
+
+class Project
+
+  attr_reader :url
+
+  def initialize(project, redis)
+    @project = project
+    @redis = redis
+    @url = nil
+  end
+
+  def generate_random_str(length)
+    SecureRandom.hex(length / 2)
+  end
+
+  def save
+    random_str = generate_random_str(6)
+    @redis.set(random_str, @project)
+    @url = "/project/#{random_str}"
+  end
+
+end

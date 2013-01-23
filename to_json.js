@@ -1,25 +1,33 @@
 (function($){
 
-	$('#to_json').on('click', to_json);
+	$('#to_json').on('click', save_data);
 
-	function to_json(evt){
+	function save_data(evt) {
+		var $results = $('#results');
 		evt.preventDefault();
-		var $results = $(evt.currentTarget).closest('#results'),
-			collector = [];
-		$.each($results.find('.result'), function(idx, el, collector) {
-			// console.log( $(el).find('.note').length, idx );
-			var $el = $(el),
-				hash = {
-					url: $el.find('.url').attr('href'),
-					note: $el.find('.note').val(),
-					types: generate_types($el)
-				};
-			// hash.push(collector);
-			console.log(hash);
+		project = to_json($results);
+
+		$.ajax({
+			type: 'post',
+			url: $results.attr('data-resource'),
+			data: project,
+			success: function(response){$('#link').attr('href', response.url).show(); },
+			error: function(){console.log('something wrong!.');}
 		});
-		// console.log($results.find('.result'), $results.find('.result').length);
 	}
 
+	function to_json($results){
+		var $el, result = [];
+		$results.find('.result').each(function(idx, el) {
+			$el = $(el);
+			result.push({
+				url: $el.find('.url').attr('href'),
+				note: $el.find('.note').val(),
+				type: generate_types($el)
+			});
+		});
+		return {project: result};
+	}
 
 	function generate_types($result) {
 		var result = {};
@@ -33,7 +41,6 @@
 		function to_hash(idx, type) {
 			result[type] = true;
 		}
-
 	}
 
 }(jQuery));

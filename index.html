@@ -9,8 +9,8 @@
       <input type="submit" id="input_button" value="+">
     </form>
     <img id="loading_data" src="/ajax-loader.gif" />
-    <div id ="results"> <div>
 
+    <div id ="results" data-resource="/projects"><div>
 
     <script id="tmpl-result" type="text/html">
       <div class="result">
@@ -28,12 +28,12 @@
         <a href="#" class="move_up">UP</a>
         <a href="#" class="move_down">DOWN</a>
         <textarea class="note hidden" ></textarea>
+
       </div>
     </script>
-        <button id="to_json">Save</button>
-        <hidden>
-        <div id="test"></div>
 
+    <button id="to_json">Save</button>
+    <a href="#" id='link' style="display:none">permalink</a>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="/jquery.ajax_form.js"></script>
