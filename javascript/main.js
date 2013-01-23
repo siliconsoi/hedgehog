@@ -1,6 +1,8 @@
 (function($){
 
-	$.each(HH.project, function(idx, result){ append_result(result); });
+	if( HH.project ) {
+		$.each(HH.project, function(idx, result){ append_result(result); });
+	}
 
 	$('#loading_data').hide().ajaxStart(function(){
 		$(this).show();

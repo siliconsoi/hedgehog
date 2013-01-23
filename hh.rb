@@ -19,9 +19,7 @@ URL_CONFIG = [
 ]
 
 get '/' do
-  @resource = "/project"
-  @resource_method = "post"
-  erb :index, {:locals => {:project => []}}
+  erb :index, :locals => {:project => Project.new({}, REDIS)}
 end
 
 get '/proxy' do    #When u push '+' btn
@@ -34,19 +32,18 @@ post '/projects' do    #When u push 'save' btn 1st time
   project =  Project.new(params, REDIS)
   project.save
   content_type :json
-  { :url => project.url}.to_json
+  { :url => project.url }.to_json
 end
 
 put '/project/:id' do    #When u push 'save' btn after 1st time
   project = Project.new(params, REDIS)
   project.save
   content_type :json
-  { :url => project.url}.to_json
+  { :url => project.url }.to_json
 end
 
 get '/project/:id' do         #When u push 'permalink' btn
-  project = Project.new(params, REDIS)
-  erb :index, {:locals => {:project => project}}
+  erb :index, :locals => {:project => Project.new(params, REDIS)}
 end
 
 def fetch_data(url)
@@ -90,9 +87,8 @@ class Project
 
   attr_reader :url#, :resource, :resource_method
 
-  def initialize(data, redis)
-    @project = data[:project].nil? ? nil : data[:project].values
-    p @project.inspect
+  def initialize(data = {}, redis = nil)
+    @project = data[:project] || nil
     @id = data[:id]
     @redis = redis
   end
@@ -103,8 +99,6 @@ class Project
 
   def save
     @id = generate_random_str(6) if @id.nil?
-    p @id
-    p @project
     @redis.set(@id, @project.to_json)
   end
 
@@ -115,6 +109,16 @@ class Project
 
   def url
     "/project/#{@id}" unless @id.nil?
+  end
+
+  def resource
+    return '/projects' if entries.nil?
+    url
+  end
+
+  def resource_method
+    return 'post' if entries.nil?
+    'put'
   end
 
 end
