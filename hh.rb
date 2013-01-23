@@ -18,6 +18,10 @@ URL_CONFIG = [
   }
 ]
 
+get '/' do
+  erb :index, {:locals => {:project => []}}
+end
+
 get '/proxy' do    #When u push '+' btn
   content_type :json
   url = preprocess(params[:url])
@@ -31,7 +35,7 @@ post '/projects' do    #When u push 'save' btn 1st time
   { :url => project.url}.to_json
 end
 
-put '/project/:id' do    #When u push 'save' btn more than 1 times
+put '/project/:id' do    #When u push 'save' btn after 1st time
   project = Project.new(params, REDIS)
   project.save
   content_type :json
@@ -40,7 +44,7 @@ end
 
 get '/project/:id' do         #When u push 'permalink' btn
   project = Project.new(params, REDIS)
-  {:erb => 'foo', :locals => {:project => project}}
+  erb :index, {:locals => {:project => project}}
 end
 
 def fetch_data(url)
@@ -85,7 +89,8 @@ class Project
   attr_reader :url
 
   def initialize(data, redis)
-    @project = data[:project]
+    @project = data[:project].nil? ? nil : data[:project].values
+    p @project.inspect
     @id = data[:id]
     @redis = redis
   end
@@ -96,11 +101,13 @@ class Project
 
   def save
     @id = generate_random_str(6) if @id.nil?
-    @redis.set(@id, @project)
+    p @id
+    p @project
+    @redis.set(@id, @project.to_json)
   end
 
   def entries
-    @project = @redis.get(@id) if (@project.nil? && !@id.nil?)
+    @project = JSON.parse(@redis.get(@id)) if (@project.nil? && !@id.nil?)
     @project
   end
 

@@ -2,33 +2,26 @@
 
 	$('#to_json').on('click', save_data);
 
-	$('#to_json').hide();
-
-	$('#to_json').on('click', to_json);
-
 	function save_data(evt) {
 		var $results = $('#results');
 		evt.preventDefault();
 		project = to_json($results);
 
 		$.ajax({
-			type: 'post',
+			type: $results.attr('data-method'),
 			url: $results.attr('data-resource'),
 			data: project,
-			success: function(response){$('#link').attr('href', response.url).show(); },
+			success: save_done,
 			error: function(){console.log('something wrong!.');}
-		});
-		$.each($results.find('.result'), function(idx, el) {
-			var $el = $(el),
-				hash = {
-					url: $el.find('.url').attr('href'),
-					note: $el.find('.note').val(),
-					types: generate_types($el)
-				};
 		});
 	}
 
-	$('#input_button').on('click', show_make_btn);
+	function save_done(response){
+		$('#link').attr('href', response.url).show();
+		$('#results').attr('data-resource', response.url).attr('data-method', 'put');
+	}
+
+	// $('#input_button').on('click', show_make_btn);
 
 	function show_make_btn(){
 		if ($('.result').length >= 0){
@@ -42,6 +35,7 @@
 			$el = $(el);
 			result.push({
 				url: $el.find('.url').attr('href'),
+				title: $el.find('.title, .hotel_name').text(),
 				note: $el.find('.note').val(),
 				type: generate_types($el)
 			});
