@@ -74,7 +74,7 @@
 		var tmpl = $('#tmpl-result').html(),
 			content = Mustache.to_html(tmpl, result);
 		$('#results').prepend(content);
-
+		$('#to_json').show();
 	}
 
 }(jQuery));
