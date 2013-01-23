@@ -1,5 +1,7 @@
 (function($){
 
+	$.each(HH.project, function(idx, result){ append_result(result); });
+
 	$('#loading_data').hide().ajaxStart(function(){
 		$(this).show();
 	}).ajaxStop(function(){
@@ -72,9 +74,10 @@
 
 	function append_result(result) {
 		var tmpl = $('#tmpl-result').html(),
-			content = Mustache.to_html(tmpl, result);
+			type_partial = $('#tmpl-content-type').html(),
+			content = Mustache.render(tmpl, result, {content_type: type_partial});
 		$('#results').prepend(content);
-
+		$('#to_json').show();
 	}
 
 }(jQuery));
