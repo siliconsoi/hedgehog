@@ -4,7 +4,7 @@
 	$('#results').on('click', '.move_down', move_down);
 
 	function move_up(evt){
-		evt.preventDefault();
+		var num = $('.result').length;
 		var $result = $(evt.currentTarget).closest('.result');
 		$result.after($result.prev());
 	}

@@ -2,6 +2,10 @@
 
 	$('#to_json').on('click', save_data);
 
+	$('#to_json').hide();
+
+	$('#to_json').on('click', to_json);
+
 	function save_data(evt) {
 		var $results = $('#results');
 		evt.preventDefault();
@@ -14,6 +18,22 @@
 			success: function(response){$('#link').attr('href', response.url).show(); },
 			error: function(){console.log('something wrong!.');}
 		});
+		$.each($results.find('.result'), function(idx, el) {
+			var $el = $(el),
+				hash = {
+					url: $el.find('.url').attr('href'),
+					note: $el.find('.note').val(),
+					types: generate_types($el)
+				};
+		});
+	}
+
+	$('#input_button').on('click', show_make_btn);
+
+	function show_make_btn(){
+		if ($('.result').length >= 0){
+			$('#to_json').show();
+		}
 	}
 
 	function to_json($results){
@@ -42,6 +62,7 @@
 			result[type] = true;
 		}
 	}
+
 
 }(jQuery));
 

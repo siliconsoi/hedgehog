@@ -39,6 +39,10 @@ put '/project/:id' do
 
 end
 
+get '/continue' do
+
+end
+
 def fetch_data(url)
   body = REDIS.get(url)
   body = get_new_data(url) if body.nil?

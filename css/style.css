@@ -6,12 +6,16 @@
     content:url(../image/Yellow-icon.png);
 }
 
-/*.move_up {
-	a.move_down:last-child {
-    color: rgba(227, 22, 30, 0.2);
-  }
+
+div.result:first-child > a.move_up {
+			display: none;
 }
 
-.move_down {
+div.result:nth-last-child(2) > a.move_down {
+			display: none;
+}
 
-}*/
+
+.note {
+	display:none;
+}
