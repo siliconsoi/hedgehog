@@ -21,8 +21,6 @@
 		$('#results').attr('data-resource', response.url).attr('data-method', 'put');
 	}
 
-	// $('#input_button').on('click', show_make_btn);
-
 	function show_make_btn(){
 		if ($('.result').length >= 0){
 			$('#to_json').show();
