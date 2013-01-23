@@ -19,3 +19,5 @@ div.result:nth-last-child(2) > a.move_down {
 .note {
 	display:none;
 }
+
+.hide { display: none; }
