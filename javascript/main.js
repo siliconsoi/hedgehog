@@ -1,8 +1,10 @@
 (function($){
 
 	if( HH.project ) {
-		$.each(HH.project, function(idx, result){ append_result(result); });
+		$.each(HH.project, function(idx, result){ append_result(result, 'append'); });
 	}
+
+	$('#results').orderable();
 
 	$('#loading_data').hide().ajaxStart(function(){
 		$(this).show();
@@ -74,11 +76,12 @@
 		return result;
 	}
 
-	function append_result(result) {
+	function append_result(result, disposition) {
 		var tmpl = $('#tmpl-result').html(),
 			type_partial = $('#tmpl-content-type').html(),
 			content = Mustache.render(tmpl, result, {content_type: type_partial});
-		$('#results').prepend(content);
+		disposition = disposition || 'prepend';
+		$('#results')[disposition](content);
 		$('#to_json').show();
 	}
 

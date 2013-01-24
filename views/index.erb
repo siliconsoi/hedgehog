@@ -22,7 +22,7 @@
         <a title="remove" href='#' class="remove-result-btn"><img src='/image/Delete-icon.png' /></a>
         <a href="#" class="move_up"><img src='/image/up-icon.png' /></a>
         <a href="#" class="move_down"><img src='/image/down-icon.png' /></a>
-        <textarea class="note" ></textarea>
+        <textarea class="note hide" {{#note}}style="display: inline-block;"{{/note}}>{{note}}</textarea>
       </div>
     </script>
 
@@ -36,10 +36,10 @@
     </script>
 
     <button id="to_json" class="hide">Save</button>
-    <a href="<%= project.resource %>" id='link' class="hide">permalink</a>
+    <a href="<%= project.resource %>" id='link' class="<% if !permalink %>hide<% end %>">permalink</a>
 
     <script>
-      var HH = {}
+      var HH = {};
       HH.project = <%= project.entries.to_json %>;
     </script>
 

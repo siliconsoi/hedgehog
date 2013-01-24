@@ -1,5 +1,24 @@
 (function($){
 
+	$.orderable = {
+		defaults: {}
+	};
+
+	$.fn.orderable = function(options) {
+		var opts = $.extend({}, $.orderable.defaults, options);
+		this.each(function(idx, element){ orderable($(element), opts); });
+		return this;
+	};
+
+	function orderable($container, opts) {
+
+	}
+
+}(jQuery));
+
+
+(function($){
+
 	$('#results').on('click', '.move_up', move_up);
 	$('#results').on('click', '.move_down', move_down);
 

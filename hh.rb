@@ -32,18 +32,18 @@ post '/projects' do    #When u push 'save' btn 1st time
   project =  Project.new(params, REDIS)
   project.save
   content_type :json
-  { :url => project.url }.to_json
+  { :url => project.resource }.to_json
 end
 
 put '/project/:id' do    #When u push 'save' btn after 1st time
   project = Project.new(params, REDIS)
   project.save
   content_type :json
-  { :url => project.url }.to_json
+  { :url => project.resource }.to_json
 end
 
 get '/project/:id' do         #When u push 'permalink' btn
-  erb :index, :locals => {:project => Project.new(params, REDIS)}
+  erb :index, :locals => {:project => Project.new(params, REDIS), :permalink => true}
 end
 
 def fetch_data(url)
@@ -82,10 +82,9 @@ end
 
 #########################################################################
 
-
 class Project
 
-  attr_reader :url#,:resouce,:resource_method
+  attr_reader :url
 
   def initialize(data = {}, redis = nil)
     @project = data[:project] || nil
@@ -107,13 +106,9 @@ class Project
     @project
   end
 
-  def url
-    "/project/#{@id}" unless @id.nil?
-  end
-
   def resource
     return '/projects' if entries.nil?
-    url
+    "/project/#{@id}" unless @id.nil?
   end
 
   def resource_method
