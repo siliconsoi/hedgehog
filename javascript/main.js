@@ -1,8 +1,6 @@
 (function($){
 
-	render_project();
-	persistence.init();
-	$('#results').orderable().results();
+	var processing;
 
 	$('#loading_data').hide().ajaxStart(function(){
 		$(this).show();
@@ -10,9 +8,16 @@
 		$(this).hide();
 	});
 
+	$('#results').orderable().results();
+	processing = url_processing.init();
+	persistence.init();
+	render_project();
+
 	function render_project() {
-		if( !HH.project.length ) { return; }
-		$.each(HH.project, function(idx, result){ append_result(result, 'append'); });
+		if( !HH.project ) { return; }
+		$.each(HH.project, function(idx, result){
+			processing.append_result(result, 'append');
+		});
 	}
 
 }(jQuery));
