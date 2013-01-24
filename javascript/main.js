@@ -78,7 +78,7 @@
 		var tmpl = $('#tmpl-result').html(),
 			type_partial = $('#tmpl-content-type').html(),
 			content = Mustache.render(tmpl, result, {content_type: type_partial});
-		$('#results').prepend(content);
+		$('#results').append(content);
 		$('#to_json').show();
 	}
 

@@ -11,7 +11,6 @@
     <img id="loading_data" src="/image/ajax-loader.gif" class="hide"/>
 
     <div id ="results" data-resource="<%= project.resource %>" data-method="<%= project.resource_method %>"></div>
-
     <script id="tmpl-result" type="text/html">
       <div class="result">
         {{^hotel_name}}<span class="title" name="title">{{title}}</span>{{/hotel_name}}
@@ -22,7 +21,7 @@
         <a title="remove" href='#' class="remove-result-btn"><img src='/image/Delete-icon.png' /></a>
         <a href="#" class="move_up"><img src='/image/up-icon.png' /></a>
         <a href="#" class="move_down"><img src='/image/down-icon.png' /></a>
-        <textarea class="note" ></textarea>
+        <textarea class="note {{^note}}hide{{/note}}" >{{note}}</textarea>
       </div>
     </script>
 
@@ -36,7 +35,7 @@
     </script>
 
     <button id="to_json" class="hide">Save</button>
-    <a href="<%= project.resource %>" id='link' class="hide">permalink</a>
+    <a href="<%= project.resource %>" target="_blank" id='link' class="hide">permalink</a>
 
     <script>
       var HH = {}

@@ -16,8 +16,4 @@ div.result:last-child > a.move_down {
 }
 
 
-.note {
-	display:none;
-}
-
 .hide { display: none; }
