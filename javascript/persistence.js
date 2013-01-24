@@ -1,6 +1,11 @@
-(function($){
+var persistence = (function($){
 
-	$('#to_json').on('click', save_data);
+	var api = {init: init};
+
+	function init() {
+		$('#to_json').on('click', save_data);
+		return api;
+	}
 
 	function save_data(evt) {
 		var $results = $('#results');
@@ -54,6 +59,8 @@
 			result[type] = true;
 		}
 	}
+
+	return api;
 
 }(jQuery));
 

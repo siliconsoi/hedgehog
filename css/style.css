@@ -15,4 +15,6 @@ div.result:last-child > a.move_down {
 			display: none;
 }
 
+#results:empty ~ #to_json { display: none; }
+
 .hide { display: none; }

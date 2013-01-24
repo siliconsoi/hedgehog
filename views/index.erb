@@ -11,6 +11,7 @@
     <img id="loading_data" src="/image/ajax-loader.gif" class="hide"/>
 
     <div id ="results" data-resource="<%= project.resource %>" data-method="<%= project.resource_method %>"></div>
+
     <script id="tmpl-result" type="text/html">
       <div class="result">
         {{^hotel_name}}<span class="title" name="title">{{title}}</span>{{/hotel_name}}
@@ -37,18 +38,20 @@
     <button id="to_json" class="hide">Save</button>
     <a href="<%= project.resource %>" id='link' class="<% if !permalink %>hide<% end %>">permalink</a>
 
-
     <script>
       var HH = {};
       HH.project = <%= project.entries.to_json %>;
     </script>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="/javascript/jquery.ajax_form.js"></script>
     <script src="/javascript/mustache.js"></script>
+
+    <script src="/javascript/jquery.ajax_form.js"></script>
+    <script src="/javascript/jquery.results.js"></script>
+    <script src="/javascript/jquery.orderable.js"></script>
     <script src="/javascript/document_handlers.js"></script>
-    <script src="/javascript/ordering.js"></script>
-    <script src="/javascript/to_json.js"></script>
+    <script src="/javascript/persistence.js"></script>
+
     <script src="/javascript/main.js"></script>
 
   </body>
