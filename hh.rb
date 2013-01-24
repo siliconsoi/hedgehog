@@ -19,7 +19,7 @@ URL_CONFIG = [
 ]
 
 get '/' do
-  erb :index, :locals => {:project => Project.new({}, REDIS)}
+  erb :index, :locals => {:project => Project.new({}, REDIS), :permalink => false}
 end
 
 get '/proxy' do    #When u push '+' btn
