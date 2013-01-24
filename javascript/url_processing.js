@@ -41,8 +41,8 @@ var url_processing = (function($){
 	}
 
 	function append_result(result, disposition) {
-		var tmpl = $('#tmpl-result').html(),
-			type_partial = $('#tmpl-content-type').html(),
+		var tmpl = $('#tmpl-result').text(),
+			type_partial = $('#tmpl-content-type').text(),
 			content = Mustache.render(tmpl, result, {content_type: type_partial});
 		disposition = disposition || 'prepend';
 		$('#results')[disposition](content);
