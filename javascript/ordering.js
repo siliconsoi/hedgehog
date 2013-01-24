@@ -1,7 +1,11 @@
 (function($){
 
 	$.orderable = {
-		defaults: {}
+		defaults: {
+			up_btn: '.move_up',
+			down_btn: '.move_down',
+			item: '.result'
+		}
 	};
 
 	$.fn.orderable = function(options) {
@@ -12,26 +16,22 @@
 
 	function orderable($container, opts) {
 
+		$container.on('click', opts.up_btn, move_up);
+		$container.on('click', opts.down_btn, move_down);
+
+		function move_up(evt){
+			var $item = $(evt.currentTarget).closest(opts.item);
+			evt.preventDefault();
+			$item.after($item.prev());
+		}
+
+		function move_down(evt){
+			var $item = $(evt.currentTarget).closest(opts.item);
+			evt.preventDefault();
+			$item.before($item.next());
+		}
+
 	}
 
 }(jQuery));
 
-
-(function($){
-
-	$('#results').on('click', '.move_up', move_up);
-	$('#results').on('click', '.move_down', move_down);
-
-	function move_up(evt){
-		var num = $('.result').length;
-		var $result = $(evt.currentTarget).closest('.result');
-		$result.after($result.prev());
-	}
-
-	function move_down(evt){
-		evt.preventDefault();
-		var $result = $(evt.currentTarget).closest('.result');
-		$result.before($result.next());
-	}
-
-}(jQuery));
