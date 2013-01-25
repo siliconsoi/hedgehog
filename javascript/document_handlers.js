@@ -24,6 +24,12 @@ var translators = (function(){
 	}, {
 		urlRegex: /^.+wotif.com+\/hotel.+$/,
 		decoder: handler(text_extractor(/<h1 *class="section">[\s\S].*<\/h1>/i))
+	}, {
+		urlRegex: /.*/,
+		decoder: handler(open_graph)
+	}, {
+		urlRegex: /.*/,
+		decoder: handler(canonical)
 	}];
 
 	function handler(fn) {
@@ -44,6 +50,47 @@ var translators = (function(){
 	function title_element(body) {
 		var title  = body.match(/<title>([\s\S]*)<\/title>/i);
 		return {data: {title: title[1] ? title[1].trim() : null}};
+	}
+
+	function open_graph(body) {
+		var data = body.match(/<meta *property="og:[a-z_-]+" *content=+"[^"]+" *\/>/g),
+			collector = [],
+			hash = {};
+		for (var idx=0; idx<data.length; idx++){
+			hash = {};
+			temp = data[idx].match(/<meta *property="og:([a-z_-]+)" *content=+"([^"]+)" *\/>/);
+			hash[temp[1]] = temp[2];
+			collector.push(hash);
+		}
+		return collector;
+	}
+
+	function canonical (body) {
+		var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
+			collector = [],
+			hash = {};
+		for (var idx=0; idx<data.length; idx++){
+			hash = {};
+			temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
+			hash[temp[1]] = temp[2];
+			collector.push(hash);
+		}
+
+		return collector;
+	}
+
+	function breadcrumb (body) {
+		var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
+			collector = [],
+			hash = {};
+		for (var idx=0; idx<data.length; idx++){
+			hash = {};
+			temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
+			hash[temp[1]] = temp[2];
+			collector.push(hash);
+		}
+
+		return collector;
 	}
 
 	return translators;
