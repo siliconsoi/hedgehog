@@ -53,19 +53,20 @@ var translators = (function(){
 	}
 
 	function open_graph(body) {
-		var data = body.match(/<meta *property="og:[a-z_-]+" *content=+"[^"]+" *\/>/g),
+		var data = body.match(/<meta *property="og:[a-z_-]+" *content=+"[^"]+" *[^\/]+\/>/g),
 			collector = [],
 			hash = {};
 		for (var idx=0; idx<data.length; idx++){
 			hash = {};
-			temp = data[idx].match(/<meta *property="og:([a-z_-]+)" *content=+"([^"]+)" *\/>/);
+			temp = data[idx].match(/<meta *property="og:([a-z_-]+)" *content=+"([^"]+)" *[^\/]+\/>/);
 			hash[temp[1]] = temp[2];
 			collector.push(hash);
 		}
+		console.log(collector);
 		return collector;
 	}
 
-	function canonical (body) {
+	function canonical(body) {
 		var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
 			collector = [],
 			hash = {};
@@ -75,23 +76,22 @@ var translators = (function(){
 			hash[temp[1]] = temp[2];
 			collector.push(hash);
 		}
-
 		return collector;
 	}
 
-	function breadcrumb (body) {
-		var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
-			collector = [],
-			hash = {};
-		for (var idx=0; idx<data.length; idx++){
-			hash = {};
-			temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
-			hash[temp[1]] = temp[2];
-			collector.push(hash);
-		}
+	// function breadcrumb (body) {
+	// 	var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
+	// 		collector = [],
+	// 		hash = {};
+	// 	for (var idx=0; idx<data.length; idx++){
+	// 		hash = {};
+	// 		temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
+	// 		hash[temp[1]] = temp[2];
+	// 		collector.push(hash);
+	// 	}
 
-		return collector;
-	}
+	// 	return collector;
+	// }
 
 	return translators;
 
