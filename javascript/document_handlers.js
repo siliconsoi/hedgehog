@@ -53,21 +53,26 @@ var translators = (function(){
 	}
 
 	function open_graph(body) {
-		var data = body.match(/<meta *property="og:[a-z_-]+" *content=+"[^"]+" *[^\/]+\/>/g),
+		var regex = (/<meta *property="og:[a-z_-]+" *content=+"[^"]+" *[^\/]+\/>/g);
+		if(regex.test(body)){
+			var data = body.match(regex),
 			collector = [],
 			hash = {};
-		for (var idx=0; idx<data.length; idx++){
+			for (var idx=0; idx<data.length; idx++){
 			hash = {};
 			temp = data[idx].match(/<meta *property="og:([a-z_-]+)" *content=+"([^"]+)" *[^\/]+\/>/);
 			hash[temp[1]] = temp[2];
 			collector.push(hash);
+			}
+			return collector;
+		}else{
+			return null;
 		}
-		console.log(collector);
-		return collector;
 	}
 
 	function canonical(body) {
-		var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
+		var regex = /<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g;
+		var data = body.match(regex),
 			collector = [],
 			hash = {};
 		for (var idx=0; idx<data.length; idx++){
