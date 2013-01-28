@@ -12,19 +12,31 @@ var translators = (function(){
 	}, {
 		urlRegex: /^.+tripadvisor.co.+\/Hotel_Review.+$/,
 		decoder: handler(text_extractor(/<h1 *id="HEADING" *property="v:name">[\s\S]*<\/h1>/i))
+	},{
+		urlRegex: /^.+tripadvisor.co.+\/Hotel_Review.+$/,
+		decoder: handler(tripad_splen_breadcrumb)
 	}, {
 		urlRegex: /^.+expedia.co.+\/Hotel-Search.+$/,
 		decoder: handler(text_extractor(/<h1 *id="address-hotel-name">[\s\S]*<\/h1>/i))
-	}, {
+	},{
+		urlRegex: /^.+expedia.co.+\/Hotel-Search.+$/,
+		decoder: handler(expedia_breadcrump)
+	},{
 		urlRegex: /^.+hotels.co.+\/hotel.+$/,
 		decoder: handler(text_extractor(/<h1 *class="fn org">[\s\S].*<\/h1>/i))
 	}, {
 		urlRegex: /^.+splendia.com\/.+$/,
 		decoder: handler(text_extractor(/<span *itemprop="name">[\s\S].*<\/span>/i))
-	}, {
+	},{
+		urlRegex: /^.+splendia.com\/.+$/,
+		decoder: handler(tripad_splen_breadcrumb)
+	},{
 		urlRegex: /^.+wotif.com+\/hotel.+$/,
 		decoder: handler(text_extractor(/<h1 *class="section">[\s\S].*<\/h1>/i))
-	}, {
+	},{
+		urlRegex: /^.+wotif.com+\/hotel.+$/,
+		decoder: handler(wotif_breadcrump)
+	},{
 		urlRegex: /.*/,
 		decoder: handler(open_graph)
 	}, {
@@ -84,19 +96,47 @@ var translators = (function(){
 		return collector;
 	}
 
-	// function breadcrumb (body) {
-	// 	var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
-	// 		collector = [],
-	// 		hash = {};
-	// 	for (var idx=0; idx<data.length; idx++){
-	// 		hash = {};
-	// 		temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
-	// 		hash[temp[1]] = temp[2];
-	// 		collector.push(hash);
-	// 	}
+	function tripad_splen_breadcrumb (body) {
+		var data = body.match(/<div *itemscope itemtype=.*>[\s\S]*?<\/div>/g),
+			collector = [],
+			hash = {};
+		for (var idx=0; idx<data.length; idx++){
+			hash = {};
+			temp = data[idx].match(/<div *itemscope itemtype=.*>([\s\S]*?)<\/div>/);
+			hash[temp[1]] = temp[2];
+			collector.push(hash);
+		}
+		console.log(collector);
+		return collector;
+	}
 
-	// 	return collector;
-	// }
+	function expedia_breadcrump (body) {
+		var data = body.match(/<span *typeof="v:Breadcrumb">[\s\S]*?<\/span>/g),
+			collector = [],
+			hash = {};
+		for (var idx=0; idx<data.length; idx++){
+			hash = {};
+			temp = data[idx].match(/<span *typeof="v:Breadcrumb">([\s\S]*?)<\/span>/);
+			hash[temp[1]] = temp[2];
+			collector.push(hash);
+		}
+		console.log(collector);
+		return collector;
+	}
+
+	function wotif_breadcrump (body) {
+		var data = body.match(/<*.crumbtrail.+ title=".+">[\s\S]*?<\/.+>/g),
+			collector = [],
+			hash = {};
+		for (var idx=0; idx<data.length; idx++){
+			hash = {};
+			temp = data[idx].match(/<*.crumbtrail.+ title=".+">([\s\S]*?)<\/.+>/);
+			hash[temp[1]] = temp[1];
+			collector.push(hash);
+		}
+		console.log(collector);
+		return collector;
+	}
 
 	return translators;
 
