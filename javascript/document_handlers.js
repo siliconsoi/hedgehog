@@ -84,16 +84,20 @@ var translators = (function(){
 
 	function canonical(body) {
 		var regex = /<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g;
-		var data = body.match(regex),
+		if(regex.test(body)){
+			var data = body.match(regex),
 			collector = [],
 			hash = {};
-		for (var idx=0; idx<data.length; idx++){
+			for (var idx=0; idx<data.length; idx++){
 			hash = {};
 			temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
 			hash[temp[1]] = temp[2];
 			collector.push(hash);
 		}
-		return collector;
+			return collector;
+		}else{
+			return null;
+		}
 	}
 
 	function tripad_splen_breadcrumb (body) {
@@ -106,7 +110,6 @@ var translators = (function(){
 			hash[temp[1]] = temp[2];
 			collector.push(hash);
 		}
-		console.log(collector);
 		return collector;
 	}
 
@@ -120,7 +123,6 @@ var translators = (function(){
 			hash[temp[1]] = temp[2];
 			collector.push(hash);
 		}
-		console.log(collector);
 		return collector;
 	}
 
@@ -134,7 +136,6 @@ var translators = (function(){
 			hash[temp[1]] = temp[1];
 			collector.push(hash);
 		}
-		console.log(collector);
 		return collector;
 	}
 
