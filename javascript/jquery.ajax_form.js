@@ -19,6 +19,7 @@
 
 		function submit_form(evt) {
 			evt.preventDefault();
+			alert('add http');
 			$.ajax({
 				type: $form.attr('method'),
 				url: $form.attr('action'),

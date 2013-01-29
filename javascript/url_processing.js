@@ -47,6 +47,7 @@ var url_processing = (function($){
 		disposition = disposition || 'prepend';
 		$('#results')[disposition](content);
 		$('#to_json').show();
+		console.log(result);
 	}
 
 	return api;
