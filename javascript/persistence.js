@@ -17,7 +17,7 @@ var persistence = (function($){
 			url: $results.attr('data-resource'),
 			data: project,
 			success: save_done,
-			error: function(){console.log('something wrong!.');}
+			error: function(){console.log('something wrong! during saving prcesss.');}
 		});
 	}
 

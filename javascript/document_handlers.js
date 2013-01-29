@@ -2,34 +2,40 @@ var translators = (function(){
 
 	var translators = [{
 		urlRegex: /.*/,
-		decoder: handler(title_element)
+		decoder: handler(text_extractor('page_title', /<title[\s\S]*<\/title>/i))
 	}, {
 		urlRegex: /^.+agoda.*.+$/,
-		decoder: handler(text_extractor(/<h1 *itemprop="name">[\s\S]*<\/h1>/i))
+		decoder: handler(text_extractor('hotel_name', /<h1 *itemprop="name">[\s\S]*<\/h1>/i))
+	}, {
+		urlRegex: /^.+agoda.*.+$/,
+		decoder: handler(agoda_breadcrumb)
 	}, {
 		urlRegex: /^.+booking.com.+$/,
-		decoder: handler(text_extractor(/<h1 *class="item">[\s\S]*<\/h1>/i))
+		decoder: handler(text_extractor('hotel_name', /<h1 *class="item">[\s\S]*<\/h1>/i))
 	}, {
 		urlRegex: /^.+tripadvisor.co.+\/Hotel_Review.+$/,
-		decoder: handler(text_extractor(/<h1 *id="HEADING" *property="v:name">[\s\S]*<\/h1>/i))
+		decoder: handler(text_extractor('hotel_name', /<h1 *id="HEADING" *property="v:name">[\s\S]*<\/h1>/i))
 	}, {
 		urlRegex: /^.+expedia.co.+\/Hotel-Search.+$/,
-		decoder: handler(text_extractor(/<h1 *id="address-hotel-name">[\s\S]*<\/h1>/i))
+		decoder: handler(text_extractor('hotel_name', /<h1 *id="address-hotel-name">[\s\S]*<\/h1>/i))
 	}, {
 		urlRegex: /^.+hotels.co.+\/hotel.+$/,
-		decoder: handler(text_extractor(/<h1 *class="fn org">[\s\S].*<\/h1>/i))
+		decoder: handler(text_extractor('hotel_name', /<h1 *class="fn org">[\s\S].*<\/h1>/i))
 	}, {
 		urlRegex: /^.+splendia.com\/.+$/,
-		decoder: handler(text_extractor(/<span *itemprop="name">[\s\S].*<\/span>/i))
+		decoder: handler(text_extractor('hotel_name', /<span *itemprop="name">[\s\S].*<\/span>/i))
 	}, {
 		urlRegex: /^.+wotif.com+\/hotel.+$/,
-		decoder: handler(text_extractor(/<h1 *class="section">[\s\S].*<\/h1>/i))
+		decoder: handler(text_extractor('hotel_name', /<h1 *class="section">[\s\S].*<\/h1>/i))
 	}, {
 		urlRegex: /.*/,
 		decoder: handler(open_graph)
 	}, {
 		urlRegex: /.*/,
 		decoder: handler(canonical)
+	}, {
+		urlRegex: /.*/,
+		decoder: handler(meta_tags)
 	}];
 
 	function handler(fn) {
@@ -39,59 +45,59 @@ var translators = (function(){
 		};
 	}
 
-	function text_extractor(regex) {
+	function text_extractor(name, regex) {
 		return function(body) {
-			var element =  body.match(regex);
+			var element =  body.match(regex),
+				result = {data: {}};
 			if( element === null ) { return {data:{}}; }
-			return {data: {hotel_name: $(element[0]).text().trim()} };
+			result.data[name] = $(element[0]).text().trim();
+			return result;
 		};
 	}
 
-	function title_element(body) {
-		var title  = body.match(/<title>([\s\S]*)<\/title>/i);
-		return {data: {title: title[1] ? title[1].trim() : null}};
+	// function title_element(body) {
+	// 	var title  = body.match(/<title[" a-zA-Z0-9]*?>([\s\S]*)<\/title>/i);
+	// 	return {data: {page_title: title[1] ? title[1].trim() : null}};
+	// }
+
+	function meta_tags(body) {
+		var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
+			collector = {data: {meta_tags: {}}};
+		if( data === null ) { return {data: {}}; }
+		for (var idx=0; idx<data.length; idx++){
+			hash = {};
+			temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
+			if( temp === null ) { continue; }
+			collector.data.meta_tags[temp[1]] = temp[2];
+		}
+		return collector;
 	}
 
 	function open_graph(body) {
-		var data = body.match(/<meta *property="og:[a-z_-]+" *content=+"[^"]+" *[^\/]+\/>/g),
-			collector = [],
-			hash = {};
+		var data = body.match(/<meta *property="og:[a-z_-]+" *content=+"[^"]+" *[^\/]*\/>/g),
+			collector = {data: {open_graph: {}}};
+			if( data === null ) { return {data: {}}; }
 		for (var idx=0; idx<data.length; idx++){
 			hash = {};
-			temp = data[idx].match(/<meta *property="og:([a-z_-]+)" *content=+"([^"]+)" *[^\/]+\/>/);
-			hash[temp[1]] = temp[2];
-			collector.push(hash);
+			temp = data[idx].match(/<meta *property="og:([a-z_-]+)" *content=+"([^"]+)" *[^\/]*\/>/);
+			if( temp === null ) { continue; }
+			collector.data.open_graph[temp[1]] = temp[2];
 		}
-		console.log(collector);
 		return collector;
 	}
 
 	function canonical(body) {
-		var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
-			collector = [],
-			hash = {};
-		for (var idx=0; idx<data.length; idx++){
-			hash = {};
-			temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
-			hash[temp[1]] = temp[2];
-			collector.push(hash);
-		}
-		return collector;
+		var canonical_url = body.match(/<link rel="canonical" href="(.+?)"/i);
+		if( canonical_url === null ) { return {data: {}}; }
+		return {data: {canonical_url: canonical_url[1]}};
 	}
 
-	// function breadcrumb (body) {
-	// 	var data = body.match(/<meta *name="[a-z_-]+" *content=+"[^"]+" *\/>/g),
-	// 		collector = [],
-	// 		hash = {};
-	// 	for (var idx=0; idx<data.length; idx++){
-	// 		hash = {};
-	// 		temp = data[idx].match(/<meta *name="([a-z_-]+)" *content=+"([^"]+)" *\/>/);
-	// 		hash[temp[1]] = temp[2];
-	// 		collector.push(hash);
-	// 	}
-
-	// 	return collector;
-	// }
+	function agoda_breadcrumb (body) {
+		var crumbs = body.match(/<a id="[0-9a-z_]+breadcrumbLink"[\s\S]*?<\/a>/gi),
+			result = {data: {agoda_breadcrumb: []}};
+		$.each(crumbs, function(i, e){ result.data.agoda_breadcrumb.push($(e).text()); });
+		return result;
+	}
 
 	return translators;
 

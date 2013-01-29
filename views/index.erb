@@ -5,7 +5,7 @@
   </head>
   <body>
     <form action="/proxy" method="get">
-      <input type="text" name="url" id="input_url" value="http://rburns.paiges.net/">
+      <input type="text" name="url" id="input_url" value="http://www.agoda.com/asia/thailand/chiang_mai/panviman_chiangmai_spa_resort.html?asq=zgjveNwQ6zXKtgg1ptFAX231Ua4L8fe5pN%2BcbnhxiTEaZ7XHD1G9r9%2BUNT0v4qFfsdRhdyP4%2B2gmMphV2gLC7g%3D%3D">
       <input type="submit" id="input_button" value="+">
     </form>
     <img id="loading_data" src="/image/ajax-loader.gif" class="hide"/>
@@ -14,7 +14,7 @@
 
     <script id="tmpl-result" type="text/html">
       <div class="result">
-        {{^hotel_name}}<span class="title" name="title">{{title}}</span>{{/hotel_name}}
+        {{^hotel_name}}<span class="title" name="title">{{page_title}}</span>{{/hotel_name}}
         {{#hotel_name}}<span class="hotel_name">{{hotel_name}}</span>{{/hotel_name}}
         <button class="add-note-btn">Note</button>
         <a class = "url" title="website" href="{{url}}" target="_blank"><img src="/image/www-icon.png" /></a>
@@ -46,6 +46,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="/javascript/mustache.js"></script>
 
+    <script src="/javascript/jquery.complete_input.js"></script>
     <script src="/javascript/jquery.ajax_form.js"></script>
     <script src="/javascript/jquery.results.js"></script>
     <script src="/javascript/jquery.orderable.js"></script>

@@ -13,7 +13,7 @@ var url_processing = (function($){
 		handlers = find_handlers(response.url);
 		details = extract(handlers, response.body);
 		result = refine(details);
-		append_result($.extend({}, result, {url: response.url}));
+		append_result($.extend({}, result, {given_url: response.url}));
 	}
 
 	function find_handlers(url) {
@@ -47,6 +47,7 @@ var url_processing = (function($){
 		disposition = disposition || 'prepend';
 		$('#results')[disposition](content);
 		$('#to_json').show();
+		console.log(result);
 	}
 
 	return api;
