@@ -4,9 +4,21 @@ var url_processing = (function($){
 
 	function init(){
 		$('form').ajax_form({
+			data: url_submission_data,
 			success: process_results
 		});
 		return api;
+	}
+
+	function url_submission_data($form) {
+		var data = $form.serializeArray(), url;
+
+		$.each(data, function(i, e){
+			if( e.name !== 'url' ) { return; }
+			e.value =  !(/^http/.test(e.value)) ? 'http://' + e.value : e.value;
+		});
+
+		return data;
 	}
 
 	function process_results (response){
