@@ -15,12 +15,11 @@
 	};
 
 	function ajax_form($form, opts) {
-		add_http(evt);
+
 		$form.on('submit', submit_form);
 
 		function submit_form(evt) {
 			evt.preventDefault();
-			add_http();
 			$.ajax({
 				type: $form.attr('method'),
 				url: $form.attr('action'),
@@ -29,10 +28,6 @@
 				error: opts.error
 			});
 		}
-	}
-
-	function add_http (evt) {
-		// body...
 	}
 
 }(jQuery));

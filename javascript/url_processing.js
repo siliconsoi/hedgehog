@@ -23,9 +23,11 @@ var url_processing = (function($){
 
 	function process_results (response){
 		handlers = find_handlers(response.url);
-		details = extract(handlers, response.body);
+		details = extract(response.url, response.body, handlers);
+		console.log('raw data', details);
 		result = refine(details);
-		append_result($.extend({}, result, {given_url: response.url}));
+		console.log('to the template', result);
+		append_result(result);
 	}
 
 	function find_handlers(url) {
@@ -36,10 +38,11 @@ var url_processing = (function($){
 		return handlers;
 	}
 
-	function extract(handlers, body) {
+	function extract(url, body, handlers) {
 		var extracted = [];
 		$.each(handlers, function(idx, handler){
-			extracted.push(handler.decoder(body));
+			var context = $.extend({}, handler, {url: url});
+			extracted.push(handler.decoder(body, context));
 		});
 		return extracted;
 	}
@@ -59,7 +62,6 @@ var url_processing = (function($){
 		disposition = disposition || 'prepend';
 		$('#results')[disposition](content);
 		$('#to_json').show();
-		console.log(result);
 	}
 
 	return api;
