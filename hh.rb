@@ -15,6 +15,10 @@ URL_CONFIG = [
   },
   { :urlRegex => /^.+hotels.co.+\/hotel.+$/,
     :rules => [:retain_query]
+  },
+  {
+    :urlRegex => /winnertelecom.co.th/,
+    :rules => [:retain_query]
   }
 ]
 
