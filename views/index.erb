@@ -5,8 +5,8 @@
   </head>
   <body>
     <form action="/proxy" method="get">
-      <input type="text" name="url" id="input_url" value="http://www.wotif.com/hotel/View?hotel=W249876&refId=1645289&page=3">
-      <input type="submit" id="input_button" value="+">
+      <input type="text" name="url" id="input_url" value="http://www.wotif.com/hotel/View?hotel=W45612&refId=1645853&page=1" />
+      <input type="submit" id="input_button" value="+" />
     </form>
     <img id="loading_data" src="/image/ajax-loader.gif" class="hide"/>
 
@@ -17,7 +17,7 @@
         {{^hotel_name}}<span class="title" name="title">{{page_title}}</span>{{/hotel_name}}
         {{#hotel_name}}<span class="hotel_name">{{hotel_name}}</span>{{/hotel_name}}
         <button class="add-note-btn">Note</button>
-        <a class = "url" title="website" href="{{url}}" target="_blank"><img src="/image/www-icon.png" /></a>
+        <a class = "url" title="website" href="{{canonical_url}}" target="_blank"><img src="/image/www-icon.png" /></a>
         {{>content_type}}
         <a title="remove" href='#' class="remove-result-btn"><img src='/image/Delete-icon.png' /></a>
         <a href="#" class="move_up"><img src='/image/up-icon.png' /></a>

@@ -2,6 +2,7 @@
 
 	$.ajax_form = {
 		defaults: {
+			data: function($form) { return $form.serialize(); },
 			success: function(){},
 			error: function(error){ alert("Sorry, we cannot found this site"); }
 		}
@@ -13,6 +14,7 @@
 		return this;
 	};
 
+
 	function ajax_form($form, opts) {
 
 		$form.on('submit', submit_form);
@@ -22,7 +24,7 @@
 			$.ajax({
 				type: $form.attr('method'),
 				url: $form.attr('action'),
-				data: $form.serialize(),
+				data: opts.data($form),
 				success: opts.success,
 				error: opts.error
 			});
