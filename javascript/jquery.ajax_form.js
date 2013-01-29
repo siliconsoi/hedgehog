@@ -2,7 +2,6 @@
 
 	$.ajax_form = {
 		defaults: {
-
 			success: function(){},
 			error: function(error){ alert("Sorry, we cannot found this site"); }
 		}
@@ -20,6 +19,7 @@
 
 		function submit_form(evt) {
 			evt.preventDefault();
+			alert('add http');
 			$.ajax({
 				type: $form.attr('method'),
 				url: $form.attr('action'),
